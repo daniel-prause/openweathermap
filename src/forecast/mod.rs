@@ -19,7 +19,7 @@ pub struct List {
     pub wind: Wind,
     pub visibility: i64,
     pub pop: f64,
-    pub rain: Rain,
+    pub rain: Option<Rain>,
     pub sys: Sys,
     #[serde(rename = "dt_txt")]
     pub dt_txt: String,
