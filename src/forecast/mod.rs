@@ -6,19 +6,19 @@ pub struct Forecast {
     pub city: City,
     pub cod: String,
     pub message: f64,
-    pub cnt: i64,
+    pub cnt: f64,
     pub list: Vec<List>,
 }
 
 #[derive(Default, Debug, Clone, PartialEq, Deserialize)]
 #[serde(rename_all = "camelCase")]
 pub struct City {
-    pub id: i64,
+    pub id: f64,
     pub name: String,
     pub coord: Coord,
     pub country: String,
-    pub population: i64,
-    pub timezone: i64,
+    pub population: f64,
+    pub timezone: f64,
 }
 
 #[derive(Default, Debug, Clone, PartialEq, Deserialize)]
@@ -37,13 +37,13 @@ pub struct List {
     pub temp: Temp,
     #[serde(rename = "feels_like")]
     pub feels_like: FeelsLike,
-    pub pressure: i64,
-    pub humidity: i64,
+    pub pressure: f64,
+    pub humidity: f64,
     pub weather: Vec<Weather>,
     pub speed: f64,
-    pub deg: i64,
+    pub deg: f64,
     pub gust: f64,
-    pub clouds: i64,
+    pub clouds: f64,
     pub pop: f64,
     pub rain: f64,
 }
@@ -71,7 +71,7 @@ pub struct FeelsLike {
 #[derive(Default, Debug, Clone, PartialEq, Deserialize)]
 #[serde(rename_all = "camelCase")]
 pub struct Weather {
-    pub id: i64,
+    pub id: f64,
     pub main: String,
     pub description: String,
     pub icon: String,
