@@ -129,3 +129,12 @@ pub struct CurrentWeather {
     /// Internal parameter
     pub cod: u64,
 }
+
+#[derive(Deserialize, Debug)]
+/// current weather report in a nested struct
+pub struct Forecast {
+    pub cod: String,
+    pub message: u32,
+    pub cnt: u32,
+    pub list: Vec<CurrentWeather>,
+}
