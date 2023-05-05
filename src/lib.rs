@@ -1,7 +1,7 @@
 extern crate reqwest;
 extern crate serde_json;
 
-use default_args::default_args;
+use forecast::Forecast;
 use futures::executor;
 use http::StatusCode;
 use regex::Regex;
@@ -11,6 +11,7 @@ use std::time::Duration;
 
 mod api;
 pub use api::*;
+mod forecast;
 
 #[cfg(test)]
 mod tests;
