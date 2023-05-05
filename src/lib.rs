@@ -133,21 +133,22 @@ pub fn init_forecast(
     lang: &str,
     api_key: &str,
     poll_mins: u64,
+    days: u32,
 ) -> ForecastReceiver {
     // generate correct request URL depending on city is id or name
     let url = match location.parse::<u64>().is_ok() {
         true => format!(
-            "http://api.openweathermap.org/data/2.5/forecast?id={}&units={}&lang={}&appid={}",
-            location, units, lang, api_key
+            "http://api.openweathermap.org/data/2.5/forecast/daily?id={}&units={}&lang={}&appid={}&cnt={}",
+            location, units, lang, api_key, days
         ),
         false => {
             let re = Regex::new(r"(-?\d+\.\d+)\s*,\s*(-?\d+\.\d+)").unwrap();
             match re.captures(&location) {
-                Some(caps) => format!("http://api.openweathermap.org/data/2.5/forecast?lat={}&lon={}&units={}&lang={}&appid={}",
-                            caps.get(1).unwrap().as_str(), caps.get(2).unwrap().as_str(), units, lang, api_key ),
+                Some(caps) => format!("http://api.openweathermap.org/data/2.5/forecast/daily?lat={}&lon={}&units={}&lang={}&appid={}&cnt={}",
+                            caps.get(1).unwrap().as_str(), caps.get(2).unwrap().as_str(), units, lang, api_key, days ),
                 None => format!(
-                            "http://api.openweathermap.org/data/2.5/forecast?q={}&units={}&lang={}&appid={}",
-                            location, units, lang, api_key ),
+                            "http://api.openweathermap.org/data/2.5/forecast/daily?q={}&units={}&lang={}&appid={}&cnt={}",
+                            location, units, lang, api_key, days ),
             }
         }
     };
@@ -277,8 +278,9 @@ pub async fn forecast(
     units: &str,
     lang: &str,
     api_key: &str,
+    days: u32,
 ) -> Result<Forecast, String> {
-    let r = init_forecast(location, units, lang, api_key, 0);
+    let r = init_forecast(location, units, lang, api_key, 0, days);
     loop {
         match update_forecast(&r) {
             Some(response) => match response {
@@ -356,8 +358,9 @@ pub mod blocking {
         units: &str,
         lang: &str,
         api_key: &str,
+        days: u32,
     ) -> Result<Forecast, String> {
         // wait for result
-        executor::block_on(super::forecast(location, units, lang, api_key))
+        executor::block_on(super::forecast(location, units, lang, api_key, days))
     }
 }
